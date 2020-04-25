@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Market {
     private Resource marketResource;
-    private Double lastDayPrice = 1.0;
+    private Double lastDayPrice = 10.0;
     private List<Offer> buyOffers = new ArrayList<>();
     private List<Offer> sellOffers = new ArrayList<>();
     private List<Double> history = new ArrayList<>();
@@ -44,7 +44,7 @@ public class Market {
         }
 
         finalizeOffer(offer, offer.who, lowestSell.who);
-        sellOffers.remove(offer);
+        sellOffers.remove(lowestSell);
         return true;
     }
 
@@ -61,14 +61,14 @@ public class Market {
         }
 
         finalizeOffer(offer, highestBuy.who, offer.who);
-        buyOffers.remove(offer);
+        buyOffers.remove(highestBuy);
         return true;
     }
 
     public void dayEnds() {
         Offer highestSell = sellOffers.stream()
                 .max(Comparator.comparingDouble(Offer::getPrice))
-                .orElse(new Offer(null, 1.0));
+                .orElse(new Offer(null, 20.0));
 
         Offer lowestBuy = buyOffers.stream()
                 .min(Comparator.comparingDouble(Offer::getPrice))

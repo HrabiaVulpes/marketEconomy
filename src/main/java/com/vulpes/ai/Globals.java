@@ -8,19 +8,12 @@ public class Globals {
     public static List<Agent> agents = new ArrayList<>();
     public static List<Market> markets = new ArrayList<>();
 
-    public static Integer START_RESOURCES = 5;
+    public static Integer START_RESOURCES = 4;
     public static Double START_GOLD = 100.0;
-    public static Integer PRODUCED_RESOURCES = 5;
+    public static Integer PRODUCED_RESOURCES = 4;
     public static Integer CONSUMED_RESOURCES = 1;
     public static Integer MIN_WANTED = 3;
     public static Integer MAX_WANTED = 10;
-
-    public static Agent getAgentByName(String name){
-        return agents.stream()
-                .filter(agent -> agent.name.equals(name))
-                .findFirst()
-                .orElse(null);
-    }
 
     public static Market getMarketByResource(Resource resource){
         return markets.stream()
