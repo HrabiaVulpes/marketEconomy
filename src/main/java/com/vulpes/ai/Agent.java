@@ -32,7 +32,9 @@ public class Agent {
                 store.put(resource, amount - CONSUMED_RESOURCES);
             }
         }
-        store.put(produced, store.get(produced) + PRODUCED_RESOURCES);
+        Integer productionCapacity = store.get(produced) + PRODUCED_RESOURCES;
+        productionCapacity = productionCapacity > MAX_STORAGE ? MAX_STORAGE : productionCapacity;
+        store.put(produced, productionCapacity);
     }
 
 
@@ -54,9 +56,9 @@ public class Agent {
     }
 
     private Double calculatePriceFor(Resource resource) {
-        return (getMarketByResource(resource).getLastDayPrice()
-                + MIN_WANTED.floatValue() / (store.get(resource).floatValue() + 1.0)
-                + 1.0 / MIN_WANTED.floatValue());
+        Double priceModification = MIN_WANTED.floatValue() / (store.get(resource).floatValue() + 1.0) + 1.0 / MIN_WANTED.floatValue();
+        priceModification = priceModification * Math.random();
+        return getMarketByResource(resource).getLastDayPrice() + priceModification;
     }
 
     @Override

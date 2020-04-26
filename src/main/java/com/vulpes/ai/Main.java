@@ -5,7 +5,7 @@ public class Main {
        Globals.startMarkets();
        Globals.randomAgents(30);
 
-       for (int i = 0; i < 50; i++){
+       for (int i = 0; i < 100; i++){
            Globals.letThemSell();
            Globals.letThemBuy();
            Globals.dayEnds();
@@ -18,6 +18,6 @@ public class Main {
        System.out.println("Agents alive " + Globals.agents.size());
        Globals.agents.forEach(System.out::println);
 
-       Globals.markets.forEach(Market::exportHistory);
+       Globals.exportHistory();
     }
 }

@@ -1,6 +1,5 @@
 package com.vulpes.ai;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,11 +7,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Market {
+    public List<Double> history = new ArrayList<>();
     private Resource marketResource;
     private Double lastDayPrice = 10.0;
     private List<Offer> buyOffers = new ArrayList<>();
     private List<Offer> sellOffers = new ArrayList<>();
-    private List<Double> history = new ArrayList<>();
 
     public Market(Resource marketResource) {
         this.marketResource = marketResource;
@@ -68,13 +67,16 @@ public class Market {
     public void dayEnds() {
         Offer highestSell = sellOffers.stream()
                 .max(Comparator.comparingDouble(Offer::getPrice))
-                .orElse(new Offer(null, 20.0));
+                .orElse(null);
 
         Offer lowestBuy = buyOffers.stream()
                 .min(Comparator.comparingDouble(Offer::getPrice))
-                .orElse(new Offer(null, 0.0));
+                .orElse(null);
 
-        lastDayPrice = (highestSell.price + lowestBuy.price) / 2;
+        if (highestSell != null && lowestBuy != null) lastDayPrice = (highestSell.price + lowestBuy.price) / 2;
+        if (highestSell != null && lowestBuy == null) lastDayPrice = highestSell.price;
+        if (highestSell == null && lowestBuy != null) lastDayPrice = lowestBuy.price;
+
         history.add(lastDayPrice);
 
         clearSellOffers();
@@ -95,39 +97,24 @@ public class Market {
         }
     }
 
-    public void exportHistory() {
-        File file = new File("history_" + marketResource.name() + ".txt");
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(file);
-            FileWriter finalFr = fileWriter;
-            history.forEach(
-                    entry -> {
-                        try {
-                            finalFr.write(entry + ";");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fileWriter != null) {
-                    fileWriter.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public Double getLastDayPrice() {
         return lastDayPrice;
     }
 
     public Resource getMarketResource() {
         return marketResource;
+    }
+
+    public void exportData(FileWriter writer){
+        try {
+            writer.write(marketResource.name() +";");
+            for (Double entry : history){
+                //TODO: replace dot with comma
+                writer.write(entry + ";");
+            }
+            writer.write("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
