@@ -56,7 +56,7 @@ public class Agent {
     }
 
     private Double calculatePriceFor(Resource resource) {
-        Double priceModification = MIN_WANTED.floatValue() / (store.get(resource).floatValue() + 1.0) + 1.0 / MIN_WANTED.floatValue();
+        Double priceModification = (MIN_WANTED.floatValue() / (store.get(resource).floatValue() + 1.0)) - (1.0 / MIN_WANTED.floatValue());
         priceModification = priceModification * Math.random();
         return getMarketByResource(resource).getLastDayPrice() + priceModification;
     }
