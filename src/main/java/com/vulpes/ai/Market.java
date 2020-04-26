@@ -109,8 +109,7 @@ public class Market {
         try {
             writer.write(marketResource.name() +";");
             for (Double entry : history){
-                //TODO: replace dot with comma
-                writer.write(entry + ";");
+                writer.write(entry.toString().replace(".", ",") + ";");
             }
             writer.write("\n");
         } catch (IOException e) {
