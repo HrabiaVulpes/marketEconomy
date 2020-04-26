@@ -1,5 +1,6 @@
 package com.vulpes.ai;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,20 +46,27 @@ public class Agent {
 
     public void buy() {
         for (Resource resource : Resource.values()) {
-            for (int i = store.get(resource); i < MIN_WANTED; i++) {
-                getMarketByResource(resource).buy(new Offer(this, calculatePriceFor(resource)));
-            }
+            if (calculatePriceFor(resource) < gold)
+                for (int i = store.get(resource); i < MIN_WANTED; i++) {
+                    getMarketByResource(resource).buy(new Offer(this, calculatePriceFor(resource)));
+                }
         }
     }
 
-    public Double calculatePriceFor(Resource resource) {
-        return getMarketByResource(resource).getLastDayPrice()
-                + (MIN_WANTED - store.get(resource)) * 0.1
-                + (MAX_WANTED - store.get(resource)) * 0.1;
+    private Double calculatePriceFor(Resource resource) {
+        return (getMarketByResource(resource).getLastDayPrice()
+                + MIN_WANTED.floatValue() / (store.get(resource).floatValue() + 1.0)
+                + 1.0 / MIN_WANTED.floatValue());
     }
 
     @Override
     public String toString() {
-        return name + " has " + gold + " gold and produced " + produced;
+        final String[] result = {""};
+        result[0] += name + " has ";
+
+        Arrays.stream(Resource.values()).forEach(resource -> result[0] += store.get(resource) + " " + resource.name() + "; ");
+
+        result[0] += gold + " gold and produced " + produced;
+        return result[0];
     }
 }

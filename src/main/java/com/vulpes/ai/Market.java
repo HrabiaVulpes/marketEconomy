@@ -36,13 +36,13 @@ public class Market {
                 .min(Comparator.comparingDouble(sellOffer -> sellOffer.price))
                 .orElse(null);
 
-        offer.who.gold = offer.who.gold - offer.price;
-
         if (lowestSell == null || lowestSell.price > offer.price) {
+            offer.who.gold = offer.who.gold - offer.price;
             buyOffers.add(offer);
             return false;
         }
 
+        offer.who.gold = offer.who.gold - lowestSell.price;
         finalizeOffer(offer, offer.who, lowestSell.who);
         sellOffers.remove(lowestSell);
         return true;
