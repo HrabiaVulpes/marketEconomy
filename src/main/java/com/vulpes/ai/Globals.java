@@ -13,7 +13,7 @@ public class Globals {
 
     public static Integer START_RESOURCES = 4;
     public static Double START_GOLD = 100.0;
-    public static Integer PRODUCED_RESOURCES = 5;
+    public static Integer PRODUCED_RESOURCES = 4;
     public static Integer CONSUMED_RESOURCES = 1;
     public static Integer MIN_WANTED = 3;
     public static Integer MAX_WANTED = 7;
