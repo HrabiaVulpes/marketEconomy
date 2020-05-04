@@ -1,5 +1,7 @@
 package com.vulpes.ai;
 
+import com.vulpes.ai.utils.ChartCreator;
+
 public class Main {
     public static void main(String[] args) {
        Globals.startMarkets();
@@ -19,5 +21,6 @@ public class Main {
        Globals.agents.forEach(System.out::println);
 
        Globals.exportHistory();
+        ChartCreator.createChart();
     }
 }
