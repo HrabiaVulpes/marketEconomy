@@ -80,14 +80,12 @@ public class ChartCreator extends JFrame {
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
-        renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
-        renderer.setSeriesPaint(1, Color.BLUE);
-        renderer.setSeriesStroke(1, new BasicStroke(2.0f));
-        renderer.setSeriesPaint(2, Color.GREEN);
-        renderer.setSeriesStroke(2, new BasicStroke(2.0f));
-        renderer.setSeriesPaint(3, Color.MAGENTA);
-        renderer.setSeriesStroke(3, new BasicStroke(2.0f));
+        int numberOfSeries = 0;
+        for (Resource resource : Resource.values()) {
+            renderer.setSeriesPaint(numberOfSeries, resource.color);
+            renderer.setSeriesStroke(numberOfSeries, new BasicStroke(2.0f));
+            numberOfSeries++;
+        }
 
         plot.setRenderer(renderer);
         plot.setBackgroundPaint(Color.white);
