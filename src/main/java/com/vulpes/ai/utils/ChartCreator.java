@@ -1,4 +1,5 @@
 package com.vulpes.ai.utils;
+
 import com.vulpes.ai.Resource;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -12,6 +13,7 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -55,8 +57,8 @@ public class ChartCreator extends JFrame {
         for (Resource resource : Resource.values()) {
             XYSeries series = new XYSeries(resource);
             List<Double> hist = getMarketByResource(resource).history;
-            for(int i = 0; i < hist.size(); i++) {
-                series.add(i+1, hist.get(i));
+            for (int i = 0; i < hist.size(); i++) {
+                series.add(i + 1, hist.get(i));
             }
             dataset.addSeries(series);
         }
